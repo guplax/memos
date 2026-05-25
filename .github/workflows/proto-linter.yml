@@ -1,12 +1,13 @@
 name: Proto Linter
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-    paths:
-      - "proto/**"
+  #push:
+  #  branches: [main]
+  #pull_request:
+  #  branches: [main]
+  #  paths:
+  #    - "proto/**"
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
