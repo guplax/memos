@@ -190,12 +190,21 @@ jobs:
 
           mkdir -p build
 
-          go build \
-            -trimpath \
-            -ldflags="-s -w -X github.com/usememos/memos/internal/version.Version=${{ needs.prepare.outputs.version }} -X github.com/usememos/memos/internal/version.Commit=${{ github.sha }} -extldflags '-static'" \
-            -tags netgo,osusergo \
-            -o "build/${output_name}" \
-            ./cmd/memos
+          if [ "$GOOS" = "android" ]; then
+            go build \
+              -trimpath \
+              -ldflags="-s -w -X github.com/usememos/memos/internal/version.Version=${{ needs.prepare.outputs.version }} -X github.com/usememos/memos/internal/version.Commit=${{ github.sha }} -extldflags '-static'" \
+              -tags netcgo \
+              -o "build/${output_name}" \
+              ./cmd/memos
+          else
+            go build \
+              -trimpath \
+              -ldflags="-s -w -X github.com/usememos/memos/internal/version.Version=${{ needs.prepare.outputs.version }} -X github.com/usememos/memos/internal/version.Commit=${{ github.sha }} -extldflags '-static'" \
+              -tags netgo,osusergo \
+              -o "build/${output_name}" \
+              ./cmd/memos
+          fi
 
       - name: Package binary
         env:
@@ -254,7 +263,7 @@ jobs:
   release:
     name: Publish GitHub Release
     needs: [prepare, build-binaries, checksums]
-    #if: github.event_name != 'workflow_dispatch'
+    if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
     permissions:
       contents: write
