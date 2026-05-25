@@ -35,7 +35,8 @@ jobs:
         run: |
           if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
             echo "tag=" >> "$GITHUB_OUTPUT"
-            echo "version=manual-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+            #echo "version=manual-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+            echo "version=0.28.0" >> "$GITHUB_OUTPUT"
             echo "major_minor=" >> "$GITHUB_OUTPUT"
             echo "is_prerelease=false" >> "$GITHUB_OUTPUT"
             exit 0
