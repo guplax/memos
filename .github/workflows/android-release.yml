@@ -172,6 +172,8 @@ jobs:
             CGO_ENABLED="1"
             TOOLCHAIN_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
 
+            sed -i '/^#cgo android.*llog/d' $GOROOT/src/runtime/cgo/cgo.go
+
             if [ "$GOARCH" = "arm64" ]; then
               export CC="$TOOLCHAIN_BIN/aarch64-linux-android${ANDROID_API}-clang"
               export CXX="$TOOLCHAIN_BIN/aarch64-linux-android${ANDROID_API}-clang++"
