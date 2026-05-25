@@ -172,6 +172,7 @@ jobs:
             CGO_ENABLED="1"
             TOOLCHAIN_BIN="$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
 
+            GOROOT="$(go env GOROOT)"
             sed -i '/^#cgo android.*llog/d' $GOROOT/src/runtime/cgo/cgo.go
 
             if [ "$GOARCH" = "arm64" ]; then
@@ -185,6 +186,7 @@ jobs:
               exit 1
             fi
 
+            unset GOROOT
             unset ANDROID_API
             unset TOOLCHAIN_BIN
             unset ANDROID_NDK_HOME
